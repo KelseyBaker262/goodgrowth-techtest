@@ -62,6 +62,8 @@ I also faced challenges when implementing the functionality which takes each pro
 - The mock API provides static weather data. In a production environment, a live weather API should be used.
 - Incorporate automated tests (unit, integration, or end-to-end) to ensure the script's functionality remains robust and reliable over time.
 - Improve the user interface to be more consistent with current site
+- Add placeholder content to reduce flicker (any brief visual disruption or change that might happen on the website when the script updates the weather content)
+- Host the script on GitHub Pages to ensure persistent accessibility, ease of use (users can include a <script> tag pointing to my GitHub Pages URL in their HTML), version control, automated deployment, security and integrity (the script is served over HTTPS, ensuring it cannot be tampered with in transit).
 
 ## Installation
 To use the script on the National Trust property pages:
