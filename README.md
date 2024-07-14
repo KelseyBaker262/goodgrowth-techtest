@@ -1,8 +1,8 @@
-# GoodGrowth Tech Test
+# Tech Test
 
 ## Introduction
 
-This repository contains my solution to the technical test provided by GoodGrowth. The aim of the test is to add weather information to the National Trust property information pages. This readme includes the implementation plan and a non-technical overview of the solution.
+This repository contains my solution to the technical test. The aim of the test is to integrate weather information to the National Trust property information pages. This readme includes the implementation plan and a non-technical overview of the solution.
 
 ## Overview for a Non-Technical Audience
 
