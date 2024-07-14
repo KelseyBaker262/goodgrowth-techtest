@@ -1,41 +1,45 @@
-// Fetch the weather data
+// This function fetches the weather data from the API fpr a given longitude and latitude
 async function fetchWeatherData(lat, lon) {
-  const appid = "a2ef86c41a";
-  const url = `https://europe-west1-amigo-actions.cloudfunctions.net/recruitment-mock-weather-endpoint/forecast?appid=${appid}&lat=${lat}&lon=${lon}`;
+  //The latitude and longitude of the location for which to fetch weather data
+  const appid = "a2ef86c41a"; // API key for accessing the weather data
+  const url = `https://europe-west1-amigo-actions.cloudfunctions.net/recruitment-mock-weather-endpoint/forecast?appid=${appid}&lat=${lat}&lon=${lon}`; // Construct of the API URL
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url); // Fetch the weather data from the API
     if (!response.ok) {
       throw new Error("Failed to fetch weather data");
     }
     const data = await response.json(); // Parse the data to JSON format
-    return data;
+    return data; //The weather data object if the fetch is successful, otherwise null
   } catch (error) {
-    console.error("Error fetching weather data:", error);
-    return null;
+    console.error("Error fetching weather data:", error); // Log the error to the console
+    return null; // Return null if an error occurs
   }
 }
 
-// Convert the timestamp to an understandable date
+// This function converts a Unix timestamp to an understandable date
 function convertTimestampToDate(timestamp) {
-  const date = new Date(timestamp * 1000);
+  // The Unix timestamp to convert
+  const date = new Date(timestamp * 1000); // Create a new date object using the timestamp (convert from seconds to milliseconds)
   const options = {
-    weekday: "long", // Choose the format of the date
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    // Options for formatting the date string
+    weekday: "long", // Display the full name of the day
+    year: "numeric", // Display the full year
+    month: "long", // Display the full name of the month
+    day: "numeric", // Display the day of the month
   };
-  return date.toLocaleDateString(undefined, options); // Convert the date object to a string using the default or specified (options)
+  return date.toLocaleDateString(undefined, options); // Convert the date object to a locale-specific string using the specified options
 }
 
 // Update the site with weather information, now with A/B test implementation
 async function updateWeatherInformationABTest() {
-  const lat = 27.98785;
+  const lat = 27.98785; // Coordinates for the location
   const lon = 86.925026;
 
-  const weatherData = await fetchWeatherData(lat, lon);
+  const weatherData = await fetchWeatherData(lat, lon); // Fetch the weather data for the given coordinates
   if (weatherData) {
-    // Generate a random number between 0 and 1
+    // Check if the weather data was fetched successfully
+    // Generate a random number between 0 and 1 for A/B testing
     const randomNumber = Math.random();
 
     // Determine the group A or B based on the random number
@@ -48,13 +52,14 @@ async function updateWeatherInformationABTest() {
     } else {
       // Group B: Display all weather information
 
+      // Create a new div element to hold the weather information
       const weatherInfoElement = document.createElement("div");
       weatherInfoElement.classList.add("weather-info");
 
       // Convert the timestamp to an understandable date
       const forecastDate = convertTimestampToDate(weatherData.list[0].dt);
 
-      // HTML for group B (all weather information)
+      // Create HTML content for group B (displaying weather information)
       const weatherHtml = `
         <h3>Weather Information</h3>
         <p><strong>Date:</strong> ${forecastDate}</p>
@@ -72,14 +77,15 @@ async function updateWeatherInformationABTest() {
       // Set the HTML content of weatherInfoElement
       weatherInfoElement.innerHTML = weatherHtml;
 
-      // Insert the weather information into the header
+      // Find the location in the header where the weather information should be inserted
       const insertLocation = document.querySelector(
         'header[data-testid="place-summary"]'
       );
       if (insertLocation) {
+        // Append the weather information to the header
         insertLocation.appendChild(weatherInfoElement);
       } else {
-        console.error("Failed to find insertion point in the page");
+        console.error("Failed to find insertion point in the page"); // Log an error if the insertion point is not found
       }
     }
   }
